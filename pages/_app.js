@@ -1,6 +1,5 @@
 import Head from "next/head";
 import "bootstrap/dist/css/bootstrap.min.css";
-import Logo from "../public/assets/Logo.png";
 
 function MyApp({ Component, pageProps }) {
   return (
@@ -10,7 +9,7 @@ function MyApp({ Component, pageProps }) {
           <title>FOOD APP</title>
           <meta name="description" content="foodApp by Dhanasekar A" />
 
-          <link rel="icon" href={Logo.src} />
+          <link rel="icon" href={"../logo.png"} />
         </Head>
       </div>
       <Component {...pageProps} />
