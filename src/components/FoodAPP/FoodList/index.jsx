@@ -127,29 +127,23 @@ const FoodList = ({ data }) => {
           show={showSelected}
           setShow={setShowSelected}
           title={`Pre-Checkout`}
-          children={
-            <SelectedItems
-              currentlySelected={selectedItem}
-              totalAmount={totalAmount}
-              setShowSelected={setShowSelected}
-              setShow={setShow}
-            />
-          }
-        />
+        >
+          <SelectedItems
+            currentlySelected={selectedItem}
+            totalAmount={totalAmount}
+            setShowSelected={setShowSelected}
+            setShow={setShow}
+          />
+        </PopUp>
 
-        <PopUp
-          show={show}
-          setShow={setShow}
-          title={`Fill the Details`}
-          children={
-            <InputForm
-              payCta={`Pay ₹${totalAmount}`}
-              totalAmount={totalAmount}
-              setShow={setShow}
-              setShowSelected={setShowSelected}
-            />
-          }
-        />
+        <PopUp show={show} setShow={setShow} title={`Fill the Details`}>
+          <InputForm
+            payCta={`Pay ₹${totalAmount}`}
+            totalAmount={totalAmount}
+            setShow={setShow}
+            setShowSelected={setShowSelected}
+          />
+        </PopUp>
       </section>
     </main>
   );
