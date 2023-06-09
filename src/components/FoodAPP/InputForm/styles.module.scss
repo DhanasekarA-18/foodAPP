@@ -1,0 +1,32 @@
+.formContainer {
+  height: 240px;
+  max-width: 400px;
+  @mixin inputBox {
+    border: 0px;
+    outline: 0px;
+    border: 2px solid #022b50;
+    width: 100%;
+    padding: 10px;
+  }
+  .emailContainer {
+    margin-bottom: 20px;
+  }
+  .mobileContainer {
+    margin-bottom: 30px;
+  }
+  .emailBox {
+    @include inputBox;
+  }
+  .mobileBox {
+    @include inputBox;
+  }
+  .inputError {
+    border: 2px solid red;
+  }
+  .error {
+    color: red;
+  }
+  .buttonContainer {
+    text-align: center;
+  }
+}

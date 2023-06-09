@@ -1,0 +1,22 @@
+@mixin displayCenter {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  height: 100vh;
+  flex-direction: column;
+}
+
+.thankyouContainer {
+  @include displayCenter();
+
+  h1 {
+    color: green;
+  }
+  h2 {
+    color: blue;
+  }
+}
+.loaderSection {
+  @include displayCenter();
+}

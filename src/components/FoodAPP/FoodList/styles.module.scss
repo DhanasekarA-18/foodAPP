@@ -1,0 +1,44 @@
+.foodListContainer {
+  .listSection {
+    table {
+      width: 100%;
+      text-align: left;
+      border: 1px solid white;
+      margin-bottom: 20px;
+      thead {
+        tr {
+          th {
+            font-size: 20px;
+            font-weight: 600;
+          }
+        }
+      }
+      tbody {
+        tr {
+          td {
+            font-size: 18px;
+            font-weight: 500;
+          }
+          .iconContainer {
+            display: flex;
+            column-gap: 20px;
+            text-align: center;
+            align-items: center;
+          }
+          .selectPointer {
+            cursor: pointer;
+          }
+          .notPointer {
+            cursor: not-allowed;
+          }
+        }
+        .totalAmount {
+          td {
+            border-top: 1px solid white;
+            padding-top: 10px;
+          }
+        }
+      }
+    }
+  }
+}

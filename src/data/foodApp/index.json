@@ -1,0 +1,58 @@
+{
+  "titleSection": {
+    "title": "Add Your Dishes"
+  },
+  "leftFoldSection": {
+    "title": "Steps to follow",
+    "steps": [
+      "Select the dish/item you want",
+      "Add the item by clicking &#8853; it will added to Item total cost column",
+      "Remove the item  by clicking &#8854; it will remove the Item total cost  from column",
+      "By clicking Proceed to Pay button you will need to fill your details then moved to payment Page"
+    ],
+    "footer": "100% hassle free"
+  },
+
+  "foodListSection": {
+    "totalAmount": "Total Amount",
+    "foodItemHeadings": [
+      "Item Code",
+      "Item Name",
+      "Item Cost",
+      "Add/Remove",
+      "Item Total Cost"
+    ],
+    "foodItems": [
+      {
+        "name": "Idly",
+        "cost": 10,
+        "code": 100
+      },
+      {
+        "name": "Dosa",
+        "cost": 40,
+        "code": 101
+      },
+      {
+        "name": "Vada",
+        "cost": 10,
+        "code": 102
+      },
+      {
+        "name": "Pongal",
+        "cost": 50,
+        "code": 103
+      },
+      {
+        "name": "chapati",
+        "cost": 20,
+        "code": 104
+      },
+      {
+        "name": "Poori",
+        "cost": 20,
+        "code": 105
+      }
+    ]
+  }
+}

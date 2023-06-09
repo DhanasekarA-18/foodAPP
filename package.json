@@ -6,15 +6,22 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "format": "prettier --write ."
   },
   "dependencies": {
+    "bootstrap": "^5.1.0",
+    "formik": "^2.4.1",
     "next": "13.4.4",
     "react": "18.2.0",
-    "react-dom": "18.2.0"
+    "react-bootstrap": "^2.5.0-beta.1",
+    "react-dom": "18.2.0",
+    "sass": "^1.63.2",
+    "yup": "^1.2.0"
   },
   "devDependencies": {
     "eslint": "8.42.0",
-    "eslint-config-next": "13.4.4"
+    "eslint-config-next": "13.4.4",
+    "prettier": "^2.8.8"
   }
 }
