@@ -55,7 +55,7 @@ const ThankYou = () => {
         transition={{ delay: 0.4 }}
       >
         Your meal is being prepared with care and will be delivered to your doorstep shortly.
-        We've dropped a confirmation email with all the details of your order.
+        We&apos;ve dropped a confirmation email with all the details of your order.
       </motion.p>
 
       <motion.div 
