@@ -16,7 +16,7 @@ const schema = z.object({
     .regex(/^[6-9]\d{9}$/, { message: "Enter a valid 10-digit Indian mobile number" }),
 });
 
-const InputForm = ({ payCta, totalAmount, setShow, setShowSelected, currentlySelected }) => {
+const InputForm = ({ payCta, totalAmount, setShow, setShowSelected, currentlySelected, setIsPageLoading }) => {
   const {
     register,
     handleSubmit,
@@ -28,7 +28,7 @@ const InputForm = ({ payCta, totalAmount, setShow, setShowSelected, currentlySel
 
   const onSubmit = (data) => {
     const { email, phoneNumber } = data;
-    openRazorpay(totalAmount, email, phoneNumber, setShow, currentlySelected);
+    openRazorpay(totalAmount, email, phoneNumber, setShow, currentlySelected, setIsPageLoading);
   };
 
   useEffect(() => {

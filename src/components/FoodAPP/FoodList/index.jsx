@@ -10,7 +10,9 @@ import PopUp from "../../PopUp";
 import InputForm from "../InputForm";
 import SelectedItems from "../SelectedItems";
 
+
 import styles from "./styles.module.scss";
+import PageLoader from "../../PageLoader";
 
 const CART_COOKIE_NAME = "ds_food_cart";
 
@@ -18,6 +20,7 @@ const FoodList = ({ data }) => {
   const [totalAmount, setTotalAmount] = useState(0);
   const [selectedItem, setSelectedItem] = useState({});
   const [isLoaded, setIsLoaded] = useState(false);
+  const [isPageLoading, setIsPageLoading] = useState(false);
 
   // Initialize from cookie on mount
   useEffect(() => {
@@ -238,8 +241,11 @@ const FoodList = ({ data }) => {
           setShow={setShow}
           setShowSelected={setShowSelected}
           currentlySelected={selectedItem}
+          setIsPageLoading={setIsPageLoading}
         />
       </PopUp>
+
+      <PageLoader isLoading={isPageLoading} />
     </main>
   );
 };

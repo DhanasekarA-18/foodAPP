@@ -1,6 +1,6 @@
 import logo from "../../../public/assets/logo.png";
 
-export const openRazorpay = (amount, email, phoneNumber, setShow, selectedItems) => {
+export const openRazorpay = (amount, email, phoneNumber, setShow, selectedItems, setIsPageLoading) => {
   const name = email.split("@")[0];
   const options = {
     key: process.env.RAZORPAY_KEY,
@@ -13,6 +13,10 @@ export const openRazorpay = (amount, email, phoneNumber, setShow, selectedItems)
     handler: async function (response) {
       const { razorpay_payment_id } = response;
       console.log(response);
+      
+      // Show Loader
+      if (setIsPageLoading) setIsPageLoading(true);
+
       // Send Bill Email
       try {
         const res = await fetch("/api/send-bill", {
@@ -34,6 +38,9 @@ export const openRazorpay = (amount, email, phoneNumber, setShow, selectedItems)
         }
       } catch (error) {
         console.error("Failed to call send-bill API:", error);
+      } finally {
+        // Hide Loader
+        if (setIsPageLoading) setIsPageLoading(false);
       }
 
       setShow(false);
@@ -55,6 +62,7 @@ export const openRazorpay = (amount, email, phoneNumber, setShow, selectedItems)
 
   rzp.on("payment.failed", async function (response) {
     console.error("Payment Failed:", response.error);
+    if (setIsPageLoading) setIsPageLoading(true);
     try {
       await fetch("/api/send-bill", {
         method: "POST",
@@ -69,6 +77,8 @@ export const openRazorpay = (amount, email, phoneNumber, setShow, selectedItems)
       });
     } catch (error) {
       console.error("Failed to send failure email:", error);
+    } finally {
+      if (setIsPageLoading) setIsPageLoading(false);
     }
   });
 

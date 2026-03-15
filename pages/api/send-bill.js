@@ -32,7 +32,7 @@ export default async function handler(req, res) {
 
     // Ensure selectedItems is an object/array before calling Object.values
     const itemsList = selectedItems ? Object.values(selectedItems) : [];
-    
+
     const itemsHtml = itemsList
       .map(
         (item) => `
@@ -55,8 +55,8 @@ export default async function handler(req, res) {
     const mailOptions = {
       from: `"DS FOOD Delivery" <${process.env.MAIL_FROM || process.env.MAIL_USER}>`,
       to: email,
-      subject: isSuccess 
-        ? `Order Confirmed: Your delicious meal is on the way! 🍔` 
+      subject: isSuccess
+        ? `Order Confirmed: Your delicious meal is on the way! 🍔`
         : `Payment Failed: Don't let your hunger wait! 🍕`,
       html: `
         <!DOCTYPE html>
@@ -139,7 +139,7 @@ export default async function handler(req, res) {
 
                       ${!isSuccess ? `
                       <div style="margin-top: 40px; text-align: center;">
-                        <a href="https://dhanasekara-18.github.io/foodAPP" style="background: #ff4d4d; color: #ffffff; padding: 16px 32px; border-radius: 12px; text-decoration: none; font-weight: 700; display: inline-block;">Retry Payment</a>
+                        <a href="${process.env.DOMAIN}" style="background: #ff4d4d; color: #ffffff; padding: 16px 32px; border-radius: 12px; text-decoration: none; font-weight: 700; display: inline-block;">Retry Payment</a>
                       </div>
                       ` : `
                       <!-- Helpful Info for Success -->
@@ -153,7 +153,7 @@ export default async function handler(req, res) {
                         </div>
                       </div>
                       <div style="margin-top: 30px; text-align: center;">
-                        <a href="https://dhanasekara-18.github.io/foodAPP" style="color: #ff4d4d; text-decoration: none; font-size: 14px; font-weight: 700;">Order more delicious food →</a>
+                        <a href="${process.env.DOMAIN}" style="color: #ff4d4d; text-decoration: none; font-size: 14px; font-weight: 700;">Order more delicious food →</a>
                       </div>
                       `}
                     </td>
@@ -164,7 +164,7 @@ export default async function handler(req, res) {
                     <td style="padding: 0 40px 40px;">
                       <div style="text-align: center;">
                         <div style="margin-bottom: 20px;">
-                          <a href="https://dhanasekara-18.github.io/foodAPP" style="color: #ff4d4d; text-decoration: none; font-size: 14px; font-weight: 700; margin: 0 10px;">Visit Website</a>
+                          <a href="${process.env.DOMAIN}" style="color: #ff4d4d; text-decoration: none; font-size: 14px; font-weight: 700; margin: 0 10px;">Visit Website</a>
                           <span style="color: #eee;">|</span>
                           <a href="#" style="color: #828282; text-decoration: none; font-size: 14px; margin: 0 10px;">Terms of Use</a>
                         </div>
