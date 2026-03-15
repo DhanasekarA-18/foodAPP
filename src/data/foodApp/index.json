@@ -3,16 +3,15 @@
     "title": "Add Your Dishes"
   },
   "leftFoldSection": {
-    "title": "Steps to follow",
+    "title": "Your Order Progress",
     "steps": [
-      "Select the dish/item you want",
-      "Add the item by clicking &#8853; it will added to Item total cost column",
-      "Remove the item  by clicking &#8854; it will remove the Item total cost  from column",
-      "By clicking Proceed to Pay button you will need to fill your details then moved to payment Page"
+      "Explore and Select your favorite Gourmet dishes",
+      "Adjust quantities using the intuitive controls",
+      "Review your subtotal in the real-time floating cart",
+      "Complete your secure payment with SSL Encryption"
     ],
-    "footer": "100% hassle free"
+    "footer": "Premium Experience Guaranteed"
   },
-
   "foodListSection": {
     "totalAmount": "Total Amount",
     "foodItemHeadings": [

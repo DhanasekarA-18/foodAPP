@@ -1,0 +1,53 @@
+.titleContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 24px 40px;
+  width: 100%;
+  position: sticky;
+  top: 0;
+  background: rgba(10, 10, 10, 0.8);
+  backdrop-filter: blur(20px);
+  z-index: 500;
+  border-bottom: 1px solid var(--glass-border);
+
+  
+  .logoSection {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    
+    .logo {
+      position: relative;
+      width: 45px;
+      height: 45px;
+    }
+    
+    h1 {
+      font-size: 24px;
+      font-weight: 800;
+      letter-spacing: -1px;
+      background: linear-gradient(135deg, var(--accent-primary) 0%, #34d399 100%);
+      background-clip: text;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+  }
+
+  .navActions {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    
+    .cartIcon {
+      position: relative;
+      cursor: pointer;
+      color: var(--text-muted);
+      transition: color 0.3s;
+      
+      &:hover {
+        color: var(--accent-primary);
+      }
+    }
+  }
+}

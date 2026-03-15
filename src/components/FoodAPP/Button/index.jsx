@@ -1,13 +1,16 @@
 import styles from "./styles.module.scss";
-const Button = ({ title = "", handleClick = () => {}, customStyle = {} }) => {
+
+const Button = ({ title = "", handleClick = () => {}, customStyle = {}, type = "primary" }) => {
   return (
-    <>
-      <section className={styles.buttonContainer}>
-        <button onClick={handleClick} style={customStyle}>
-          {title}
-        </button>
-      </section>
-    </>
+    <div className={styles.buttonContainer}>
+      <button 
+        onClick={handleClick} 
+        style={customStyle}
+        className={type === "primary" ? "btn-premium btn-primary" : "btn-premium"}
+      >
+        {title}
+      </button>
+    </div>
   );
 };
 export default Button;

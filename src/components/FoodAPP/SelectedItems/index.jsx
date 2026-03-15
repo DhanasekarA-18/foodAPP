@@ -1,6 +1,6 @@
 import React from "react";
 import styles from "./styles.module.scss";
-import Button from "../Button";
+import { ChevronLeft, CreditCard } from "lucide-react";
 
 const SelectedItems = ({
   currentlySelected,
@@ -8,16 +8,6 @@ const SelectedItems = ({
   setShowSelected,
   setShow,
 }) => {
-  const foodItemHeadings = [
-    "Item Name",
-    "Item Cost",
-    "Selected Count",
-    "Item Total Cost",
-  ];
-  const customStyle = {
-    backgroundColor: "#022b50",
-  };
-
   const handleBack = () => {
     setShowSelected(false);
   };
@@ -28,41 +18,43 @@ const SelectedItems = ({
   };
 
   return (
-    <>
-      <header className={styles.selectedheader}>
-        <h1>Selected Items</h1>
-      </header>
-      <main className={styles.selectedItemList}>
-        <section>
-          <table>
-            <thead>
-              {foodItemHeadings.map((title, index) => (
-                <th key={index}>{title}</th>
-              ))}
-            </thead>
-            <tbody>
-              {Object.values(currentlySelected).map((item, index) => (
-                <tr key={index}>
-                  <td>{item?.name}</td>
-                  <td>{item?.cost}</td>
-                  <td>{item?.selectedCount}</td>
-                  <td>{item?.cost * item?.selectedCount}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </section>
-        <section className={styles.buttonContainer}>
-          <Button
-            title={`Edit`}
-            customStyle={customStyle}
-            handleClick={handleBack}
-          />
-          <Button title={`Pay ₹${totalAmount}`} handleClick={handleNext} />
-        </section>
-      </main>
-    </>
+    <div className={styles.selectedItemList}>
+      <div className={styles.itemList}>
+        {Object.values(currentlySelected).map((item, index) => (
+          <div key={index} className={styles.itemRow}>
+            <div className={styles.itemInfo}>
+              <div className={styles.itemName}>{item?.name}</div>
+              <div className={styles.itemMeta}>
+                {item?.selectedCount} x ₹{item?.cost}
+              </div>
+            </div>
+            <div className={styles.itemPrice}>
+              ₹{item?.cost * item?.selectedCount}
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <div className={styles.totalSection}>
+        <span>Total Payable</span>
+        <div className={styles.totalAmount}>₹{totalAmount}</div>
+      </div>
+
+      <div className={styles.buttonContainer}>
+        <button 
+          className="btn-premium" 
+          style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid var(--glass-border)' }}
+          onClick={handleBack}
+        >
+          <ChevronLeft size={18} /> Edit
+        </button>
+        <button className="btn-premium btn-primary" onClick={handleNext}>
+          Checkout <CreditCard size={18} />
+        </button>
+      </div>
+    </div>
   );
 };
 
 export default SelectedItems;
+

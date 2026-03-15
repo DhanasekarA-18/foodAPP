@@ -1,19 +1,44 @@
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
+import { motion, AnimatePresence } from "framer-motion";
+import { Plus, Minus, CreditCard, ChevronRight } from "lucide-react";
+import Cookies from "js-cookie";
+import toast from "react-hot-toast";
 
 import Button from "../Button";
 import PopUp from "../../PopUp";
 import InputForm from "../InputForm";
 import SelectedItems from "../SelectedItems";
 
-import plus from "../../../../public/assets/plus.svg";
-import minus from "../../../../public/assets/minus.svg";
-
 import styles from "./styles.module.scss";
+
+const CART_COOKIE_NAME = "ds_food_cart";
 
 const FoodList = ({ data }) => {
   const [totalAmount, setTotalAmount] = useState(0);
   const [selectedItem, setSelectedItem] = useState({});
+  const [isLoaded, setIsLoaded] = useState(false);
+
+  // Initialize from cookie on mount
+  useEffect(() => {
+    const savedCart = Cookies.get(CART_COOKIE_NAME);
+    if (savedCart) {
+      try {
+        setSelectedItem(JSON.parse(savedCart));
+      } catch (e) {
+        console.error("Failed to parse cart cookie");
+      }
+    }
+    setIsLoaded(true);
+  }, []);
+
+  // Save to cookie whenever selectedItem changes
+  useEffect(() => {
+    if (isLoaded) {
+      Cookies.set(CART_COOKIE_NAME, JSON.stringify(selectedItem), { expires: 7 });
+    }
+  }, [selectedItem, isLoaded]);
+
   const [show, setShow] = useState(false); // form modal
   const [showSelected, setShowSelected] = useState(false); // selectedItem modal
 
@@ -57,96 +82,167 @@ const FoodList = ({ data }) => {
     }
   }, [selectedItem]);
 
-  const getIcon = (src, name) => (
-    <Image src={src} width={16} height={16} alt={name} />
-  );
-
-  const getPattern = (code) =>
-    selectedItem[code]
-      ? `${selectedItem[code]?.selectedCount} * ${selectedItem[code]?.cost} = ${selectedItem[code]?.totalCost}`
-      : 0;
-
   const handleSelectedItem = () => {
     if (totalAmount === 0) {
-      alert("Please Add an Item!");
+      toast.error("Your cart is empty! Please add some delicious items.", {
+        style: {
+          borderRadius: '10px',
+          background: '#333',
+          color: '#fff',
+        },
+      });
     } else {
       setShowSelected(true);
     }
   };
 
+  const getFoodImage = (name) => {
+    const formattedName = name.toLowerCase();
+    try {
+      if (formattedName) {
+        return `/assets/food_${formattedName}.png`;
+      }
+    } catch {
+      // Fallback image for chapati/poori
+      return `/assets/hero_bg.png`;
+    }
+  };
+
   return (
     <main className={styles.foodListContainer}>
-      <section className={styles.listSection}>
-        <table>
-          <thead>
-            <tr>
-              {data?.foodItemHeadings?.map((title, index) => (
-                <th key={index}>{title}</th>
-              ))}
-            </tr>
-          </thead>
-          <tbody>
-            {data?.foodItems.map((item, index) => (
-              <tr key={index}>
-                <td>{item?.code}</td>
-                <td>{item?.name}</td>
-                <td>{item?.cost}</td>
-                <td className={styles.iconContainer}>
-                  <span
-                    onClick={() => handleItem(item, "add")}
-                    className={styles.selectPointer}
-                  >
-                    {getIcon(plus.src, "plus")}
-                  </span>
-                  <span
-                    onClick={() => handleItem(item, "sub")}
-                    className={
-                      !selectedItem[item?.code]
-                        ? styles.notPointer
-                        : styles.selectPointer
-                    }
-                  >
-                    {getIcon(minus.src, "minus")}
-                  </span>
-                </td>
-                <td>{getPattern(item?.code)}</td>
-              </tr>
-            ))}
-            <tr className={styles.totalAmount}>
-              <td colSpan={data?.foodItemHeadings?.length - 1}></td>
-              <td>{`${data?.totalAmount} = ${totalAmount ?? 0}`}</td>
-            </tr>
-          </tbody>
-        </table>
-      </section>
-      <section>
-        <Button title={`Proceed to Pay`} handleClick={handleSelectedItem} />
-      </section>
-      <section>
-        <PopUp
-          show={showSelected}
-          setShow={setShowSelected}
-          title={`Pre-Checkout`}
-        >
-          <SelectedItems
-            currentlySelected={selectedItem}
-            totalAmount={totalAmount}
-            setShowSelected={setShowSelected}
-            setShow={setShow}
-          />
-        </PopUp>
+      <h2 className={styles.title}>Delectable Menu</h2>
 
-        <PopUp show={show} setShow={setShow} title={`Fill the Details`}>
-          <InputForm
-            payCta={`Pay ₹${totalAmount}`}
-            totalAmount={totalAmount}
-            setShow={setShow}
-            setShowSelected={setShowSelected}
-          />
-        </PopUp>
-      </section>
+      <motion.section
+        className={styles.gridSection}
+        initial="hidden"
+        animate="visible"
+        variants={{
+          visible: { transition: { staggerChildren: 0.1 } }
+        }}
+      >
+        {data?.foodItems.map((item, index) => (
+          <motion.div
+            key={index}
+            variants={{
+              hidden: { opacity: 0, y: 30 },
+              visible: { opacity: 1, y: 0 }
+            }}
+            className={styles.foodCard}
+          >
+            <div className={styles.imageContainer}>
+              <Image
+                src={getFoodImage(item?.name)}
+                alt={item?.name}
+                fill
+                className={styles.foodImage}
+              />
+              <div className={styles.priceTag}>₹{item?.cost}</div>
+            </div>
+
+            <div className={styles.content}>
+              <div className={styles.code}>ID: {item?.code}</div>
+              <h3>{item?.name}</h3>
+
+              <div className={styles.actions}>
+                <div className={styles.quantityControl}>
+                  <button
+                    onClick={() => handleItem(item, "sub")}
+                    disabled={!selectedItem[item?.code]}
+                  >
+                    <Minus size={18} />
+                  </button>
+                  <span>{selectedItem[item?.code]?.selectedCount || 0}</span>
+                  <button onClick={() => handleItem(item, "add")}>
+                    <Plus size={18} />
+                  </button>
+                </div>
+
+                <AnimatePresence>
+                  {selectedItem[item?.code] && (
+                    <motion.div
+                      initial={{ scale: 0.8, opacity: 0 }}
+                      animate={{ scale: 1, opacity: 1 }}
+                      exit={{ scale: 0.8, opacity: 0 }}
+                      style={{ fontWeight: '700', color: 'var(--accent-primary)' }}
+                    >
+                      ₹{selectedItem[item?.code]?.totalCost}
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
+            </div>
+          </motion.div>
+        ))}
+      </motion.section>
+
+      {isLoaded && totalAmount > 0 && (
+        <motion.div
+          initial={{ y: 100, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          className={styles.stickyBar}
+          style={{
+            position: 'fixed',
+            bottom: '30px',
+            paddingRight: '40px',
+            width: 'calc(100% - 280px)',
+            left: '280px',
+            zIndex: 150,
+            display: 'flex',
+            justifyContent: 'center'
+          }}
+        >
+          <div className="glass-morphism" style={{
+            padding: '20px 40px',
+            borderRadius: '24px',
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.5)',
+            width: '100%',
+            maxWidth: '1100px',
+            border: '1px solid rgba(16, 185, 129, 0.3)'
+          }}>
+            <div>
+              <div style={{ color: 'var(--text-muted)', fontSize: '14px', fontWeight: '600' }}>Subtotal</div>
+              <div style={{ fontSize: '28px', fontWeight: '800', color: 'var(--accent-primary)' }}>₹{totalAmount}</div>
+            </div>
+
+            <button
+              className="btn-premium btn-primary"
+              onClick={handleSelectedItem}
+              style={{ padding: '18px 45px', fontSize: '18px' }}
+            >
+              Review Order <ChevronRight size={20} />
+            </button>
+          </div>
+        </motion.div>
+      )}
+
+      <PopUp
+        show={showSelected}
+        setShow={setShowSelected}
+        title={`Review Order`}
+      >
+        <SelectedItems
+          currentlySelected={selectedItem}
+          totalAmount={totalAmount}
+          setShowSelected={setShowSelected}
+          setShow={setShow}
+        />
+      </PopUp>
+
+      <PopUp show={show} setShow={setShow} title={`Delivery Details`}>
+        <InputForm
+          payCta={`Complete Payment (₹${totalAmount})`}
+          totalAmount={totalAmount}
+          setShow={setShow}
+          setShowSelected={setShowSelected}
+          currentlySelected={selectedItem}
+        />
+      </PopUp>
     </main>
   );
 };
 
 export default FoodList;
+

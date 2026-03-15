@@ -1,32 +1,65 @@
 .formContainer {
-  height: 240px;
-  max-width: 400px;
-  @mixin inputBox {
-    border: 0px;
-    outline: 0px;
-    border: 2px solid #022b50;
-    width: 100%;
-    padding: 10px;
+  padding: 10px 0;
+  
+  .inputGroup {
+    margin-bottom: 24px;
+    
+    label {
+      display: block;
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+    }
+    
+    input {
+      width: 100%;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--glass-border);
+      border-radius: 12px;
+      padding: 14px 18px;
+      color: white;
+      font-size: 16px;
+      transition: all 0.3s;
+      
+      &::placeholder {
+        color: rgba(255, 255, 255, 0.3);
+      }
+      
+      &:focus {
+        outline: none;
+        border-color: var(--accent-primary);
+        background: rgba(255, 255, 255, 0.08);
+        box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.1);
+      }
+      
+      &.inputError {
+        border-color: #ef4444;
+        &:focus {
+          box-shadow: 0 0 0 4px rgba(239, 68, 68, 0.1);
+        }
+      }
+    }
   }
-  .emailContainer {
-    margin-bottom: 20px;
-  }
-  .mobileContainer {
-    margin-bottom: 30px;
-  }
-  .emailBox {
-    @include inputBox;
-  }
-  .mobileBox {
-    @include inputBox;
-  }
-  .inputError {
-    border: 2px solid red;
-  }
+
   .error {
-    color: red;
+    color: #ef4444;
+    font-size: 12px;
+    margin-top: 6px;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 4px;
   }
+
+
   .buttonContainer {
-    text-align: center;
+    margin-top: 32px;
+    
+    button {
+      width: 100%;
+      padding: 16px;
+      font-size: 18px;
+    }
   }
 }

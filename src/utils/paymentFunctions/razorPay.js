@@ -1,6 +1,6 @@
 import logo from "../../../public/assets/logo.png";
 
-export const openRazorpay = (amount, email, phoneNumber, setShow) => {
+export const openRazorpay = (amount, email, phoneNumber, setShow, selectedItems) => {
   const name = email.split("@")[0];
   const options = {
     key: process.env.RAZORPAY_KEY,
@@ -10,8 +10,32 @@ export const openRazorpay = (amount, email, phoneNumber, setShow) => {
     description: "Payment for selected Food",
     currency: "INR",
     image: logo.src,
-    handler: function (response) {
+    handler: async function (response) {
       const { razorpay_payment_id } = response;
+      console.log(response);
+      // Send Bill Email
+      try {
+        const res = await fetch("/api/send-bill", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            email,
+            paymentId: razorpay_payment_id,
+            selectedItems,
+            totalAmount: amount
+          }),
+        });
+        
+        const data = await res.json();
+        if (!res.ok) {
+          console.error("Send-bill API error:", data.error || "Unknown error");
+        } else {
+          console.log("Bill sent successfully:", data.message);
+        }
+      } catch (error) {
+        console.error("Failed to call send-bill API:", error);
+      }
+
       setShow(false);
       window.location.assign(`/thank-you?paymentId=${razorpay_payment_id}`);
     },
@@ -28,5 +52,25 @@ export const openRazorpay = (amount, email, phoneNumber, setShow) => {
     },
   };
   const rzp = new window.Razorpay(options);
+
+  rzp.on("payment.failed", async function (response) {
+    console.error("Payment Failed:", response.error);
+    try {
+      await fetch("/api/send-bill", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          email,
+          paymentId: response.error.metadata.payment_id || "FAILED",
+          selectedItems,
+          totalAmount: amount,
+          status: "failed",
+        }),
+      });
+    } catch (error) {
+      console.error("Failed to send failure email:", error);
+    }
+  });
+
   rzp.open();
 };

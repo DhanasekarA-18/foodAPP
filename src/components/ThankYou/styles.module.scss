@@ -1,22 +1,91 @@
-@mixin displayCenter {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  height: 100vh;
-  flex-direction: column;
-}
-
 .thankyouContainer {
-  @include displayCenter();
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 40px;
+  background-color: var(--bg-deep);
+
+  .successCircle {
+    width: 100px;
+    height: 100px;
+    background: var(--accent-primary);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 40px;
+    color: white;
+    box-shadow: 0 0 50px rgba(16, 185, 129, 0.4);
+  }
 
   h1 {
-    color: green;
+    font-size: clamp(32px, 5vw, 48px);
+    font-weight: 800;
+    margin-bottom: 16px;
+    background: linear-gradient(135deg, white 0%, var(--text-muted) 100%);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
   }
-  h2 {
-    color: blue;
+
+  p {
+    font-size: 18px;
+    color: var(--text-muted);
+    max-width: 500px;
+    line-height: 1.6;
+    margin-bottom: 40px;
+  }
+
+  .orderCard {
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    backdrop-filter: blur(20px);
+    border-radius: 24px;
+    padding: 30px;
+    width: 100%;
+    max-width: 450px;
+    margin-bottom: 40px;
+
+    .label {
+      font-size: 14px;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      margin-bottom: 10px;
+    }
+
+    .id {
+      font-family: monospace;
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--accent-primary);
+      word-break: break-all;
+    }
+  }
+
+  .homeBtn {
+    padding: 16px 40px;
+    background: white;
+    color: black;
+    border-radius: 14px;
+    font-weight: 700;
+    font-size: 18px;
+    transition: all 0.3s;
+
+    &:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 30px rgba(255, 255, 255, 0.1);
+    }
   }
 }
+
 .loaderSection {
-  @include displayCenter();
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--bg-deep);
 }

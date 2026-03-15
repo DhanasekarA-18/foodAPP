@@ -7,13 +7,14 @@ const FoodApp = () => {
   return (
     <>
       <main className={styles.foodAppContainer}>
-        <section className={styles.leftFold}>
+        <div className={styles.leftSidebar}>
           <LeftFold data={data?.leftFoldSection} />
-        </section>
-        <section className={styles.rightFold}>
+        </div>
+
+        <div className={styles.mainSection}>
           <Title data={data?.titleSection} />
           <FoodList data={data?.foodListSection} />
-        </section>
+        </div>
       </main>
     </>
   );

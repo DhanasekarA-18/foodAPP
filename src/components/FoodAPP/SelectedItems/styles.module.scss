@@ -1,27 +1,83 @@
 .selectedheader {
+  margin-bottom: 24px;
   h1 {
-    color: #022b50;
-    font-size: 24px;
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--text-main);
   }
 }
 
 .selectedItemList {
-  margin-bottom: 20px;
-  section {
-    table {
-      width: 100%;
-      text-align: left;
-      border: 1px solid black;
-      padding: 5px;
-      margin-bottom: 20px;
-      td {
-        padding-bottom: 10px;
+  .itemList {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-bottom: 30px;
+    
+    .itemRow {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-bottom: 16px;
+      border-bottom: 1px solid var(--glass-border);
+      
+      .itemInfo {
+        .itemName {
+          font-weight: 600;
+          font-size: 16px;
+          margin-bottom: 4px;
+        }
+        .itemMeta {
+          font-size: 13px;
+          color: var(--text-muted);
+        }
+      }
+      
+      .itemPrice {
+        font-weight: 700;
+        font-size: 16px;
+        color: var(--accent-primary);
       }
     }
   }
-  .buttonContainer {
+
+  .totalSection {
+    margin-bottom: 30px;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 16px;
+    
+    span {
+      font-size: 14px;
+      color: var(--text-muted);
+    }
+    
+    .totalAmount {
+      font-size: 24px;
+      font-weight: 800;
+      color: var(--text-main);
+    }
+  }
+
+  .buttonContainer {
+    display: flex;
+    gap: 16px;
+    
+    button {
+      flex: 1;
+    }
+    
+    .editBtn {
+      background: rgba(255, 255, 255, 0.05);
+      color: white;
+      border: 1px solid var(--glass-border);
+      
+      &:hover {
+        background: rgba(255, 255, 255, 0.1);
+      }
+    }
   }
 }
