@@ -84,3 +84,16 @@ h1, h2, h3, h4 {
   box-shadow: 0 10px 20px rgba(16, 185, 129, 0.2);
 }
 
+.btn-secondary {
+  background: rgba(249, 115, 22, 0.08);
+  color: var(--accent-secondary);
+  border: 1px solid rgba(249, 115, 22, 0.2);
+}
+
+.btn-secondary:hover {
+  background: rgba(249, 115, 22, 0.15);
+  border-color: var(--accent-secondary);
+  box-shadow: 0 8px 20px rgba(249, 115, 22, 0.15);
+  transform: translateY(-2px);
+}
+

@@ -2,7 +2,8 @@ import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
-import { Mail, Phone, Lock, AlertCircle } from "lucide-react";
+import { Mail, Phone, Lock, AlertCircle, ChevronLeft, MapPin } from "lucide-react";
+import Cookies from "js-cookie";
 import styles from "./styles.module.scss";
 import { openRazorpay } from "../../../utils/paymentFunctions/razorPay";
 
@@ -14,21 +15,33 @@ const schema = z.object({
   phoneNumber: z.string()
     .min(1, { message: "Phone number is required" })
     .regex(/^[6-9]\d{9}$/, { message: "Enter a valid 10-digit Indian mobile number" }),
+  address: z.string()
+    .min(5, { message: "Address must be at least 5 characters long" })
+    .max(200, { message: "Address is too long" }),
 });
 
-const InputForm = ({ payCta, totalAmount, setShow, setShowSelected, currentlySelected, setIsPageLoading }) => {
+const InputForm = ({ payCta, totalAmount, subtotal, discountAmount, isCouponApplied, setShow, setShowSelected, currentlySelected, setIsPageLoading }) => {
+  const savedAddress = Cookies.get("ds_delivery_address");
+
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm({
     resolver: zodResolver(schema),
+    defaultValues: {
+      email: "",
+      phoneNumber: "",
+      address: savedAddress || ""
+    },
     mode: "onBlur", // Validate when user leaves the field
   });
 
   const onSubmit = (data) => {
-    const { email, phoneNumber } = data;
-    openRazorpay(totalAmount, email, phoneNumber, setShow, currentlySelected, setIsPageLoading);
+    const { email, phoneNumber, address } = data;
+    // Save address to cookie for Thank You page
+    Cookies.set("ds_delivery_address", address, { expires: 1 });
+    openRazorpay(totalAmount, email, phoneNumber, setShow, currentlySelected, setIsPageLoading, subtotal, discountAmount, isCouponApplied);
   };
 
   useEffect(() => {
@@ -86,6 +99,24 @@ const InputForm = ({ payCta, totalAmount, setShow, setShowSelected, currentlySel
           </div>
         </div>
 
+        <div className={styles.inputGroup}>
+          <label htmlFor="address">Delivery Address</label>
+          <div style={{ position: 'relative' }}>
+            <textarea
+              {...register("address")}
+              id="address"
+              placeholder="Flat/House No, Street, Landmark, City"
+              className={`${errors.address ? styles.inputError : ""}`}
+              rows={3}
+            />
+            {errors.address && (
+              <div className={styles.error}>
+                <AlertCircle size={14} /> {errors.address.message}
+              </div>
+            )}
+          </div>
+        </div>
+
         <div style={{
           display: 'flex',
           alignItems: 'center',
@@ -98,13 +129,23 @@ const InputForm = ({ payCta, totalAmount, setShow, setShowSelected, currentlySel
           borderRadius: '12px',
           border: '1px solid var(--glass-border)'
         }}>
-          <Lock size={14} className="text-emerald-500" />
+          <Lock size={14} color="#10b981" />
           <span>Secure SSL Encrypted Payment</span>
         </div>
 
         <section className={styles.buttonContainer}>
           <button type="submit" className="btn-premium btn-primary">
             {payCta}
+          </button>
+          <button 
+            type="button" 
+            className="btn-premium btn-secondary"
+            onClick={() => {
+              setShow(false);
+              setShowSelected(true);
+            }}
+          >
+            <ChevronLeft size={18} /> Back
           </button>
         </section>
       </form>

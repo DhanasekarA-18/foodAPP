@@ -38,6 +38,16 @@
     display: flex;
     gap: 20px;
     align-items: center;
+
+    .infoIcon {
+      display: none; // Hidden on desktop
+      cursor: pointer;
+      color: var(--text-muted);
+      transition: color 0.3s;
+      &:hover {
+        color: var(--accent-primary);
+      }
+    }
     
     .cartIcon {
       position: relative;
@@ -47,6 +57,61 @@
       
       &:hover {
         color: var(--accent-primary);
+      }
+
+      .cartBadge {
+        position: absolute;
+        top: -8px;
+        right: -10px;
+        background: var(--accent-primary);
+        color: white;
+        font-size: 10px;
+        font-weight: 800;
+        min-width: 18px;
+        height: 18px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: 2px solid var(--bg-deep);
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+      }
+    }
+  }
+}
+
+@media (max-width: 1024px) {
+  .titleContainer {
+    .navActions {
+      .infoIcon {
+        display: flex;
+        align-items: center;
+      }
+    }
+  }
+}
+
+@media (max-width: 640px) {
+  .titleContainer {
+    padding: 16px 20px;
+    
+    .logoSection {
+      gap: 10px;
+      .logo {
+        width: 35px;
+        height: 35px;
+      }
+      h1 {
+        font-size: 18px;
+      }
+    }
+
+    .navActions {
+      gap: 15px;
+      .infoIcon svg,
+      .cartIcon svg {
+        width: 20px;
+        height: 20px;
       }
     }
   }

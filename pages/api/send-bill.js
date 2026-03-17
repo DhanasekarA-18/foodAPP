@@ -9,7 +9,7 @@ export default async function handler(req, res) {
     // In Next.js Pages Router, req.body is already parsed if the content-type is application/json
     // Supporting both possible body formats for safety
     const body = req.body;
-    const { email, paymentId, selectedItems, totalAmount, status = "success" } = body;
+    const { email, paymentId, selectedItems, totalAmount, subtotal, discountAmount, isCouponApplied, status = "success" } = body;
 
     console.log(`Received send-bill request (${status}) for:`, email);
 
@@ -130,10 +130,20 @@ export default async function handler(req, res) {
                       </table>
 
                       <!-- Final Calculations -->
-                      <table width="100%" border="0" cellspacing="0" cellpadding="0" style="margin-top: 25px;">
+                      <table width="100%" border="0" cellspacing="0" cellpadding="0" style="margin-top: 25px; border-top: 1px solid #eee; padding-top: 20px;">
+                        <tr>
+                          <td style="font-size: 14px; color: #828282; padding-bottom: 8px;">Subtotal</td>
+                          <td align="right" style="font-size: 14px; color: #1c1c1c; padding-bottom: 8px; font-weight: 600;">₹${subtotal || totalAmount}</td>
+                        </tr>
+                        ${isCouponApplied ? `
+                        <tr>
+                          <td style="font-size: 14px; color: #10b981; padding-bottom: 8px; font-weight: 600;">Coupon Discount</td>
+                          <td align="right" style="font-size: 14px; color: #10b981; padding-bottom: 8px; font-weight: 600;">-₹${discountAmount}</td>
+                        </tr>
+                        ` : ''}
                         <tr style="font-size: 20px;">
-                          <td style="padding: 20px 0 0; color: #1c1c1c; font-weight: 800; border-top: 2px solid #1c1c1c; margin-top: 15px;">Order Total</td>
-                          <td align="right" style="padding: 20px 0 0; color: #1c1c1c; font-weight: 800; border-top: 2px solid #1c1c1c; margin-top: 15px;">₹${totalAmount}</td>
+                          <td style="padding: 15px 0 0; color: #1c1c1c; font-weight: 800; border-top: 2px solid #1c1c1c;">Order Total</td>
+                          <td align="right" style="padding: 15px 0 0; color: #1c1c1c; font-weight: 800; border-top: 2px solid #1c1c1c;">₹${totalAmount}</td>
                         </tr>
                       </table>
 

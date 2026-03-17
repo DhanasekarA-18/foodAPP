@@ -21,24 +21,25 @@ function PopUp({ show, setShow, children, title }) {
               height: '100%',
               background: 'rgba(0,0,0,0.8)',
               backdropFilter: 'blur(8px)',
-              zIndex: 1000,
+              zIndex: 2000,
             }}
           />
           
-          {/* Drawer Content */}
           <motion.div
             initial={{ x: '100%' }}
             animate={{ x: 0 }}
             exit={{ x: '100%' }}
             transition={{ type: 'spring', damping: 25, stiffness: 200 }}
+            className="popup-drawer"
             style={{
               position: 'fixed',
               top: 0,
               right: 0,
-              width: '40%',
+              width: '100%',
+              maxWidth: '450px',
               height: '100vh',
-              zIndex: 1001,
-              padding: '40px',
+              zIndex: 2001,
+              padding: 'clamp(20px, 5vw, 40px)',
               background: 'var(--bg-deep)',
               borderLeft: '1px solid var(--glass-border)',
               display: 'flex',
@@ -73,9 +74,10 @@ function PopUp({ show, setShow, children, title }) {
             </div>
             
             <div style={{ 
-              flexGrow: 1, 
-              overflowY: 'auto',
-              paddingRight: '10px'
+              flexGrow: 1,
+              display: 'flex',
+              flexDirection: 'column',
+              minHeight: 0 // Crucial for nested flex scrolling
             }}>
               {children}
             </div>

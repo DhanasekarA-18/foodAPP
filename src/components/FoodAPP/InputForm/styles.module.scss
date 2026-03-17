@@ -1,5 +1,7 @@
 .formContainer {
   padding: 10px 0;
+  overflow-y: auto;
+  padding-right: 4px;
   
   .inputGroup {
     margin-bottom: 24px;
@@ -12,7 +14,7 @@
       margin-bottom: 8px;
     }
     
-    input {
+    input, textarea {
       width: 100%;
       background: rgba(255, 255, 255, 0.05);
       border: 1px solid var(--glass-border);
@@ -55,11 +57,34 @@
 
   .buttonContainer {
     margin-top: 32px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
     
     button {
-      width: 100%;
+      flex: 1;
       padding: 16px;
       font-size: 18px;
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .formContainer {
+    .inputGroup {
+      margin-bottom: 20px;
+      input {
+        padding: 12px 15px;
+        font-size: 15px;
+      }
+    }
+    
+    .buttonContainer {
+      margin-top: 24px;
+      button {
+        padding: 14px;
+        font-size: 16px;
+      }
     }
   }
 }

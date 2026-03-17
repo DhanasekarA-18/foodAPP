@@ -1,6 +1,6 @@
 import logo from "../../../public/assets/logo.png";
 
-export const openRazorpay = (amount, email, phoneNumber, setShow, selectedItems, setIsPageLoading) => {
+export const openRazorpay = (amount, email, phoneNumber, setShow, selectedItems, setIsPageLoading, subtotal, discountAmount, isCouponApplied) => {
   const name = email.split("@")[0];
   const options = {
     key: process.env.RAZORPAY_KEY,
@@ -26,6 +26,9 @@ export const openRazorpay = (amount, email, phoneNumber, setShow, selectedItems,
             email,
             paymentId: razorpay_payment_id,
             selectedItems,
+            subtotal: subtotal || amount,
+            discountAmount: discountAmount || 0,
+            isCouponApplied: isCouponApplied || false,
             totalAmount: amount
           }),
         });

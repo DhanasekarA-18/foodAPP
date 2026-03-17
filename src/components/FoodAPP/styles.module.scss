@@ -33,11 +33,11 @@
   }
 }
 
-@media (max-width: 1100px) {
+@media (max-width: 1024px) {
   .foodAppContainer {
     grid-template-columns: 1fr;
     overflow: auto;
-    height: auto;
+    height: 100vh;
   }
   .leftSidebar {
     display: none;
@@ -45,6 +45,13 @@
   .mainSection {
     height: auto;
     overflow: visible;
+    padding: 0 0 120px 0; // Space for sticky bar
+  }
+}
+
+@media (max-width: 640px) {
+  .mainSection {
+    padding: 0 0 150px 0;
   }
 }
 
