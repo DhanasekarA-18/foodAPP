@@ -7,13 +7,13 @@ export const openRazorpay = (amount, email, phoneNumber, setShow, selectedItems,
     key_secrete: process.env.RAZORPAY_KEY_SECRETE,
     amount: amount * 100,
     name: "DS Food App",
-    description: "Payment for selected Food",
+    description: "Premium Food Order Payment",
     currency: "INR",
     image: logo.src,
     handler: async function (response) {
       const { razorpay_payment_id } = response;
       console.log(response);
-      
+
       // Show Loader
       if (setIsPageLoading) setIsPageLoading(true);
 
@@ -29,7 +29,7 @@ export const openRazorpay = (amount, email, phoneNumber, setShow, selectedItems,
             totalAmount: amount
           }),
         });
-        
+
         const data = await res.json();
         if (!res.ok) {
           console.error("Send-bill API error:", data.error || "Unknown error");
@@ -55,7 +55,7 @@ export const openRazorpay = (amount, email, phoneNumber, setShow, selectedItems,
       paidFor: "selected food in Ds App",
     },
     theme: {
-      color: "#022b50",
+      color: "#10b981",
     },
   };
   const rzp = new window.Razorpay(options);
